@@ -93,6 +93,7 @@ checks_df = pd.DataFrame(
 )
 
 checks_df.to_csv("outputs/part_a_checks.csv", index=False)
+
 service_summary=features.groupby("service_type").agg(
     shipments=("is_delayed", "size"),
     delayed=("is_delayed", "sum"),
@@ -102,6 +103,7 @@ service_summary=features.groupby("service_type").agg(
 service_summary=service_summary.rename(columns={"service_type":"group"})
 service_summary["dimension"] = "service_type"
 service_summary=service_summary[["dimension","group","shipments","delayed","delay_rate","mean_hours"]]
+
 hub_summary=features.groupby("hub_tier").agg(
     shipments=("is_delayed", "size"),
     delayed=("is_delayed", "sum"),
@@ -111,6 +113,7 @@ hub_summary=features.groupby("hub_tier").agg(
 hub_summary=hub_summary.rename(columns={"hub_tier":"group"})
 hub_summary["dimension"] = "hub_tier"
 hub_summary=hub_summary[["dimension","group","shipments","delayed","delay_rate","mean_hours"]]
+
 features["distance_band"]=pd.cut(features["distance_km"],bins=[0,200,400,600,2000],
                                  labels=["0-200", "201-400", "401-600", "601+"],right=True,include_lowest=True)
 distance_summary = features.groupby("distance_band").agg(
@@ -122,6 +125,7 @@ distance_summary = features.groupby("distance_band").agg(
 distance_summary=distance_summary.rename(columns={"distance_band":"group"})
 distance_summary["dimension"] = "distance_band"
 distance_summary=distance_summary[["dimension","group","shipments","delayed","delay_rate","mean_hours"]]
+
 pd.concat(
     [service_summary, hub_summary, distance_summary],
     ignore_index=True

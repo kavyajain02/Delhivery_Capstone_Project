@@ -244,4 +244,3 @@ test_result = pd.DataFrame([{
 
 metrics_df = pd.concat([metrics_df, test_result], ignore_index=True)
 metrics_df.to_csv("outputs/part_b_metrics.csv", index=False)
-print(metrics_df)
